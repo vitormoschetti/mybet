@@ -15,7 +15,7 @@ public abstract class BaseEntity {
     }
 
     public Boolean hasErrors() {
-        return this.notification.messages().isEmpty();
+        return !this.notification.messages().isEmpty();
     }
 
     public Set<INotificationError> getMessages() {
@@ -26,7 +26,7 @@ public abstract class BaseEntity {
         this.notification.addMessage(error);
     }
 
-    protected abstract void validate();
+    protected abstract void validate(final String context);
 
 
 }
