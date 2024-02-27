@@ -8,20 +8,20 @@ import br.com.mybet.domain.bet.vo.BetDate;
 import br.com.mybet.domain.bet.vo.BetOdd;
 import br.com.mybet.domain.bet.vo.BetPotentialWinnings;
 import br.com.mybet.domain.core.entity.BaseEntity;
-import br.com.mybet.domain.core.entity.IAggregateRoot;
+import br.com.mybet.domain.core.entity.IAggregate;
 import br.com.mybet.domain.core.notification.DomainNotification;
 import br.com.mybet.domain.core.notification.DomainNotificationError;
 import br.com.mybet.domain.event.vo.EventDate;
+import br.com.mybet.domain.user.entity.User;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Bet extends BaseEntity implements IAggregateRoot {
+public class Bet extends BaseEntity implements IAggregate<User> {
 
     private UUID id;
-    private UUID userId;
     private UUID eventId;
     private BetType type;
     private BetAmount amount;
@@ -41,9 +41,6 @@ public class Bet extends BaseEntity implements IAggregateRoot {
 
         if (Objects.isNull(this.id))
             this.addMessage(new DomainNotificationError("Id is required", context, this.getClass().getSimpleName()));
-
-        if (Objects.isNull(this.userId))
-            this.addMessage(new DomainNotificationError("User id is required", context, this.getClass().getSimpleName()));
 
         if (Objects.isNull(this.eventId))
             this.addMessage(new DomainNotificationError("Event id is required", context, this.getClass().getSimpleName()));
@@ -77,10 +74,6 @@ public class Bet extends BaseEntity implements IAggregateRoot {
         return this.id;
     }
 
-    public UUID getUserId() {
-        return this.userId;
-    }
-
     public UUID getEventId() {
         return this.eventId;
     }
@@ -105,8 +98,8 @@ public class Bet extends BaseEntity implements IAggregateRoot {
         return this.betDate.getDate();
     }
 
-    public LocalDate getEventDate() {
-        return this.eventDate.getDate();
+    public String getEventDate() {
+        return this.eventDate.getDateTime();
     }
 
     public BetResult getResult() {
@@ -118,7 +111,6 @@ public class Bet extends BaseEntity implements IAggregateRoot {
     }
 
     public void create(
-            final UUID userId,
             final UUID eventId,
             final BetType type,
             final BigDecimal amount,
@@ -126,7 +118,6 @@ public class Bet extends BaseEntity implements IAggregateRoot {
             final EventDate eventDate
     ) {
         this.id = UUID.randomUUID();
-        this.userId = userId;
         this.eventId = eventId;
         this.type = type;
         this.amount = new BetAmount(amount);

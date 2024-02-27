@@ -13,6 +13,9 @@ import br.com.mybet.domain.event.vo.EventDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BetTest extends BetBaseTests {
@@ -21,26 +24,24 @@ public class BetTest extends BetBaseTests {
     @DisplayName("Should create valid bet")
     void createValidBet() {
 
-        final var userId = this.createRandomId();
         final var eventId = this.createRandomId();
-        final var type = BetType.WIN;
+        final var type = BetType.HOME_WIN;
         final var betAmount = this.createValue(2D);
         final var betOdd = this.createValue(1.74D);
         final var eventDate = this.eventDate();
 
         final var bet = new Bet();
-        bet.create(userId, eventId, type, betAmount, betOdd, eventDate);
+        bet.create(eventId, type, betAmount, betOdd, eventDate);
 
         assertFalse(bet.hasErrors());
         assertNotNull(bet.getId());
-        assertEquals(userId, bet.getUserId());
         assertEquals(eventId, bet.getEventId());
         assertEquals(type, bet.getType());
         assertEquals(betAmount, bet.getAmount());
         assertEquals(betOdd, bet.getOdd());
         assertEquals(BetStatus.ACTIVE, bet.getStatus());
         assertEquals(new BetDate().getDate(), bet.getBetDate());
-        assertEquals(new EventDate().getDate(), bet.getEventDate());
+        assertEquals(new EventDate(LocalDate.now(), LocalTime.of(16, 0, 0)).getDateTime(), bet.getEventDate());
         assertEquals(BetResult.SCHEDULED, bet.getResult());
         assertEquals(new BetPotentialWinnings(new BetAmount(betAmount), new BetOdd(betOdd)).getValue(), bet.getPotentialWinnings());
 

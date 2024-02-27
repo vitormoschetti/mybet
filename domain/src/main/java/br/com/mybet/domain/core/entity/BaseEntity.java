@@ -1,5 +1,6 @@
 package br.com.mybet.domain.core.entity;
 
+import br.com.mybet.domain.core.notification.DomainNotification;
 import br.com.mybet.domain.core.notification.INotification;
 import br.com.mybet.domain.core.notification.INotificationError;
 
@@ -13,6 +14,7 @@ public abstract class BaseEntity {
     protected BaseEntity(final INotification notification) {
         this.notification = notification;
     }
+
 
     public Boolean hasErrors() {
         return !this.notification.messages().isEmpty();
