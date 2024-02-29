@@ -2,7 +2,7 @@ package br.com.mybet.domain.core.event;
 
 import java.time.Instant;
 
-public interface IEvent<T> {
+public interface IEvent {
 
     String traceId();
 
@@ -10,7 +10,7 @@ public interface IEvent<T> {
 
     Instant instantCreated();
 
-    T payload();
+    IEventRecord payload();
 
 
 }
