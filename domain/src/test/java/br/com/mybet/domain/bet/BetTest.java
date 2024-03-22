@@ -9,7 +9,7 @@ import br.com.mybet.domain.bet.vo.BetAmount;
 import br.com.mybet.domain.bet.vo.BetDate;
 import br.com.mybet.domain.bet.vo.BetOdd;
 import br.com.mybet.domain.bet.vo.BetPotentialWinnings;
-import br.com.mybet.domain.event.vo.EventDate;
+import br.com.mybet.domain.betevent.vo.EventDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

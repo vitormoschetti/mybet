@@ -22,13 +22,15 @@ public class UserService implements IService {
         this.userRepository = userRepository;
     }
 
-    public void create() {
+    public User create() {
 
         final var user = new User();
 
         user.create();
 
         this.userRepository.create(user);
+
+        return user;
 
     }
 
@@ -42,12 +44,39 @@ public class UserService implements IService {
         final var balanceManagement = user.deposit(amount, method);
 
         if (user.hasErrors())
-            throw new DomainException(String.join(",", user.getMessages().toString()));
+            throw new DomainException(String.join(",", user.getOnlyMessages()));
 
         this.userRepository.update(user);
 
         this.userDispatcher.notify(new TransactionalDepositEvent(balanceManagement));
 
+    }
+
+    public void withdraw(final UUID userId, final BigDecimal amount) {
+
+        final var user = this.userRepository.findById(userId);
+
+        if (Objects.isNull(user))
+            throw new DomainException(String.format("User with id: %s not found", userId));
+
+        final var balanceManagement = user.withdraw(amount);
+
+        if (user.hasErrors())
+            throw new DomainException(String.join(",", user.getOnlyMessages()));
+
+        this.userRepository.update(user);
+
+        this.userDispatcher.notify(new TransactionalDepositEvent(balanceManagement));
+    }
+
+    public User findUser(final UUID userId) {
+
+        final var user = this.userRepository.findById(userId);
+
+        if (Objects.isNull(user))
+            throw new DomainException(String.format("User with id: %s not found", userId));
+
+        return user;
 
     }
 

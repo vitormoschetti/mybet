@@ -11,7 +11,7 @@ import br.com.mybet.domain.core.entity.BaseEntity;
 import br.com.mybet.domain.core.entity.IAggregate;
 import br.com.mybet.domain.core.notification.DomainNotification;
 import br.com.mybet.domain.core.notification.DomainNotificationError;
-import br.com.mybet.domain.event.vo.EventDate;
+import br.com.mybet.domain.betevent.vo.EventDate;
 import br.com.mybet.domain.user.entity.User;
 
 import java.math.BigDecimal;
@@ -25,8 +25,8 @@ public class Bet extends BaseEntity implements IAggregate<User> {
     private UUID eventId;
     private BetType type;
     private BetAmount amount;
-    private BetOdd odd;
     private BetStatus status;
+    private BetOdd odd;
     private BetDate betDate;
     private EventDate eventDate;
     private BetResult result;
@@ -51,11 +51,11 @@ public class Bet extends BaseEntity implements IAggregate<User> {
         if (this.amount.hasErrors())
             this.amount.getMessages().forEach(this::addMessage);
 
-        if (this.odd.hasErrors())
-            this.odd.getMessages().forEach(this::addMessage);
-
         if (Objects.isNull(this.status))
             this.addMessage(new DomainNotificationError("Status is required", context, this.getClass().getSimpleName()));
+
+        if (this.odd.hasErrors())
+            this.odd.getMessages().forEach(this::addMessage);
 
         if (this.betDate.hasErrors())
             this.betDate.getMessages().forEach(this::addMessage);

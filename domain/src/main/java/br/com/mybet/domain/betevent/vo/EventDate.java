@@ -1,4 +1,4 @@
-package br.com.mybet.domain.event.vo;
+package br.com.mybet.domain.betevent.vo;
 
 import br.com.mybet.domain.core.entity.BaseEntity;
 import br.com.mybet.domain.core.entity.IValueObject;

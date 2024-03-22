@@ -1,4 +1,4 @@
-package br.com.mybet.domain.event.enums;
+package br.com.mybet.domain.betevent.enums;
 
 public enum EventResult {
 

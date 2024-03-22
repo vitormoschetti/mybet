@@ -32,7 +32,7 @@ public class BalanceManagement extends BaseEntity implements IAggregate<User> {
     @Override
     protected void validate(String context) {
         if (amount.compareTo(BigDecimal.ZERO) < 0)
-            this.addMessage(new DomainNotificationError("amount must be greater than zero", context, this.getClass().getSimpleName()));
+            this.addMessage(new DomainNotificationError("Amount must be greater than zero", context, this.getClass().getSimpleName()));
         if (Objects.isNull(this.method))
             this.addMessage(new DomainNotificationError("transactional method is required", context, this.getClass().getSimpleName()));
     }
@@ -47,7 +47,37 @@ public class BalanceManagement extends BaseEntity implements IAggregate<User> {
         this.validate("deposit");
     }
 
+    public void withdraw(BigDecimal amount) {
+        this.transactionId = UUID.randomUUID();
+        this.type = TransactionalType.WITHDRAW;
+        this.amount = amount;
+        this.timestamp = Instant.now().atOffset(ZoneOffset.UTC).toInstant();
+        this.status = TransactionalStatus.PENDING;
+        this.method = TransactionalMethod.BANK_TRANSFER;
+        this.validate("amount");
+    }
+
     public UUID getTransactionId() {
         return this.transactionId;
+    }
+
+    public TransactionalType getType() {
+        return this.type;
+    }
+
+    public BigDecimal getAmount() {
+        return this.amount;
+    }
+
+    public Instant getTimestamp() {
+        return this.timestamp;
+    }
+
+    public TransactionalStatus getStatus() {
+        return this.status;
+    }
+
+    public TransactionalMethod getMethod() {
+        return this.method;
     }
 }

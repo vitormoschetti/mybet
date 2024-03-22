@@ -1,6 +1,6 @@
-package br.com.mybet.domain.event;
+package br.com.mybet.domain.betevent;
 
-import br.com.mybet.domain.event.vo.EventDate;
+import br.com.mybet.domain.betevent.vo.EventDate;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

@@ -7,16 +7,16 @@ import br.com.mybet.domain.core.event.IEventHandler;
 
 import java.util.*;
 
-public class BetDispatcher implements IEventDispatcher<Bet> {
+public class BetDispatcher implements IEventDispatcher {
 
-    private final Map<String, Set<IEventHandler<Bet>>> eventHandlers;
+    private final Map<String, Set<IEventHandler<IEvent>>> eventHandlers;
 
     public BetDispatcher() {
         this.eventHandlers = new HashMap<>();
     }
 
     @Override
-    public void notify(IEvent<Bet> event) {
+    public void notify(IEvent event) {
         this.eventHandlers.values().stream()
                 .flatMap(Collection::stream)
                 .toList()
@@ -24,9 +24,9 @@ public class BetDispatcher implements IEventDispatcher<Bet> {
     }
 
     @Override
-    public void register(String eventName, IEventHandler<Bet> handler) {
+    public void register(String eventName, IEventHandler<IEvent> handler) {
         if (!this.eventHandlers.containsKey(eventName)) {
-            final var handlers = new HashSet<IEventHandler<Bet>>();
+            final var handlers = new HashSet<IEventHandler<IEvent>>();
             handlers.add(handler);
             this.eventHandlers.put(eventName, handlers);
 
@@ -36,7 +36,7 @@ public class BetDispatcher implements IEventDispatcher<Bet> {
     }
 
     @Override
-    public void unregister(String eventName, IEventHandler<Bet> handler) {
+    public void unregister(String eventName, IEventHandler<IEvent> handler) {
         if (this.eventHandlers.containsKey(eventName)) {
             this.eventHandlers.get(eventName).remove(handler);
             if (this.eventHandlers.get(eventName).isEmpty())
@@ -50,7 +50,7 @@ public class BetDispatcher implements IEventDispatcher<Bet> {
     }
 
     @Override
-    public List<IEventHandler<Bet>> getEventHandlers(String eventName) {
+    public List<IEventHandler<IEvent>> getEventHandlers(String eventName) {
         if (this.eventHandlers.containsKey(eventName))
             return this.eventHandlers.get(eventName).stream().toList();
         return List.of();

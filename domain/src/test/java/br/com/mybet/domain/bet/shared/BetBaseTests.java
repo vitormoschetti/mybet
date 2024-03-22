@@ -1,7 +1,7 @@
 package br.com.mybet.domain.bet.shared;
 
-import br.com.mybet.domain.event.EventBaseTests;
-import br.com.mybet.domain.event.vo.EventDate;
+import br.com.mybet.domain.betevent.EventBaseTests;
+import br.com.mybet.domain.betevent.vo.EventDate;
 
 import java.math.BigDecimal;
 import java.util.UUID;

@@ -1,11 +1,10 @@
 package br.com.mybet.domain.core.entity;
 
-import br.com.mybet.domain.core.notification.DomainNotification;
 import br.com.mybet.domain.core.notification.INotification;
 import br.com.mybet.domain.core.notification.INotificationError;
 
+import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 public abstract class BaseEntity {
 
@@ -22,6 +21,10 @@ public abstract class BaseEntity {
 
     public Set<INotificationError> getMessages() {
         return this.notification.messages();
+    }
+
+    public List<String> getOnlyMessages() {
+        return this.notification.messages().stream().toList().stream().map(INotificationError::message).toList();
     }
 
     public void addMessage(final INotificationError error) {

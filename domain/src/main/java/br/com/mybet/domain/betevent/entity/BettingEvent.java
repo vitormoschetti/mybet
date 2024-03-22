@@ -1,18 +1,18 @@
-package br.com.mybet.domain.event.entity;
+package br.com.mybet.domain.betevent.entity;
 
+import br.com.mybet.domain.betevent.vo.EventOdd;
 import br.com.mybet.domain.core.entity.BaseEntity;
 import br.com.mybet.domain.core.entity.IAggregateRoot;
 import br.com.mybet.domain.core.notification.DomainNotification;
-import br.com.mybet.domain.event.enums.EventOdds;
-import br.com.mybet.domain.event.enums.EventResult;
-import br.com.mybet.domain.event.enums.EventStatus;
-import br.com.mybet.domain.event.vo.EventDate;
-import br.com.mybet.domain.event.vo.Team;
+import br.com.mybet.domain.betevent.enums.EventResult;
+import br.com.mybet.domain.betevent.enums.EventStatus;
+import br.com.mybet.domain.betevent.vo.EventDate;
+import br.com.mybet.domain.betevent.vo.Team;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class Event extends BaseEntity implements IAggregateRoot {
+public class BettingEvent extends BaseEntity implements IAggregateRoot {
 
     private UUID id;
     private Team homeTeam;
@@ -21,10 +21,10 @@ public class Event extends BaseEntity implements IAggregateRoot {
     private String location;
     private EventStatus status;
     private EventResult result;
-    private EventOdds odds;
-    private LocalDateTime BetDeadline;
+    private EventOdd odds;
+    private LocalDateTime betDeadline;
 
-    private Event() {
+    private BettingEvent() {
         super(new DomainNotification());
     }
 

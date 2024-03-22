@@ -59,10 +59,21 @@ public class User extends BaseEntity implements IAggregateRoot {
         final var balanceManagement = new BalanceManagement();
         balanceManagement.deposit(amount, method);
         this.accountBalance.deposit(amount);
+        this.balanceManagements.add(balanceManagement);
 
-        if (balanceManagement.hasErrors()) {
-            balanceManagement.getMessages().forEach(this::addMessage);
-        }
+        this.validate("deposit");
+
+        return balanceManagement;
+
+    }
+
+    public BalanceManagement withdraw(BigDecimal amount) {
+        final var balanceManagement = new BalanceManagement();
+        balanceManagement.withdraw(amount);
+        this.accountBalance.withdraw(amount);
+        this.balanceManagements.add(balanceManagement);
+
+        this.validate("withdraw");
 
         return balanceManagement;
 
@@ -71,4 +82,23 @@ public class User extends BaseEntity implements IAggregateRoot {
     public UUID getId() {
         return id;
     }
+
+    public BigDecimal getAccountBalance() {
+        return this.accountBalance.getValue();
+    }
+
+    public List<BalanceManagement> getBalanceManagements() {
+        return balanceManagements;
+    }
+
+    public List<Bet> getBets() {
+        return bets;
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+
+
 }
