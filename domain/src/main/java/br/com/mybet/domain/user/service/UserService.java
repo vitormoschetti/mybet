@@ -75,7 +75,7 @@ public class UserService implements IService {
 
         if (Objects.isNull(user))
             throw new DomainException(String.format("User with id: %s not found", userId));
-
+ 
         return user;
 
     }
